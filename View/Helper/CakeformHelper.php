@@ -3,6 +3,8 @@ class CakeformHelper extends AppHelper {
     public $helpers = array('Html', 'Form');
 
     public function beforeRender() {
+    
+    
 	if($this->params['plugin'] == 'cforms'){
 	    $view =& ClassRegistry::getObject('view');
 	    if($view){
@@ -44,7 +46,7 @@ class CakeformHelper extends AppHelper {
                 if(!empty($formData['Cform']['action'])){
                     $action = $formData['Cform']['action'];
                 } else {
-                    $action = '/' . $this->params['url']['url'];
+                    $action = '/' . $this->request->url;
                 }
 
                 $out .= $this->Form->create('Form', array('url' => $action, 'class' => 'cform', 'type' => 'file'));

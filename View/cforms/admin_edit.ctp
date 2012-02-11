@@ -34,7 +34,7 @@ echo $this->Html->script(array('/cforms/js/cforms/admin_edit.js'));
 			?>
 			</tbody>
 			</table>
-			<?php echo $this->Html->link('Add Field', array('plugin' => 'cforms', 'admin' => true, 'controller' => 'form_fields', 'action' => 'add', $this->data['Cform']['id']), array('class' => 'jsbutton', 'id' => 'addFieldLink'));?>
+			<?php echo $this->Html->link('Add Field', array('plugin' => 'cforms', 'admin' => true, 'controller' => 'FormFields', 'action' => 'add', $this->data['Cform']['id']), array('class' => 'jsbutton', 'id' => 'addFieldLink'));?>
 		</div>
 		<h3><a href="#">Miscellaneous Options</a></h3>
 		<div>
