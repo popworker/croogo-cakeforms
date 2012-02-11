@@ -6,27 +6,29 @@ class CformsController extends CformsAppController {
 	var $helpers = array('Html', 'Form');
 
 	function admin_edit($id = null) {
-		if (!$id && empty($this->data)) {
+	
+	
+		if (!$id && empty($this->request->data)) {
 			$this->Session->setFlash(__('Invalid Cform', true));
 			$this->redirect(array('action' => 'index'));
 		}
-		if (!empty($this->data)) {
-			if ($this->Cform->saveAll($this->data)) {
+		if (!empty($this->request->data)) {
+			if ($this->Cform->saveAll($this->request->data)) {
 				$this->Session->setFlash(__('The Form has been saved', true));
 			} else {
 				$this->Session->setFlash(__('The Cform could not be saved. Please, try again.', true));
 			}
 		}
-		if (empty($this->data)) {
-			$this->data = $this->Cform->read(null, $id);
+		if (empty($this->request->data)) {
+			$this->request->data = $this->Cform->read(null, $id);
 		}
 
-		if(empty($this->data['Cform']['recipient'])){
-			$this->data['Cform']['recipient'] = Configure::read('Site.email');
+		if(empty($this->request->data['Cform']['recipient'])){
+			$this->request->data['Cform']['recipient'] = Configure::read('Site.email');
 		}
 
-		if(empty($this->data['Cform']['from'])){
-			$this->data['Cform']['from'] = Configure::read('Site.email');
+		if(empty($this->request->data['Cform']['from'])){
+			$this->request->data['Cform']['from'] = Configure::read('Site.email');
 		}
 
 		$nexts = $this->Cform->Next->find('list');
@@ -37,14 +39,19 @@ class CformsController extends CformsAppController {
 
 
 	function admin_index() {
+	
+	
+	
 		$this->Cform->recursive = 0;
 		$this->set('cforms', $this->paginate());
 	}
 
 	function admin_add() {
-		if (!empty($this->data)) {
+	
+			echo 'admin add';
+		if (!empty($this->request->data)) {
 			$this->Cform->create();
-			if ($this->Cform->save($this->data)) {
+			if ($this->Cform->save($this->request->data)) {
 				$this->Session->setFlash(__('The Form has been created', true));
 				$this->redirect(array('action' => 'edit', $this->Cform->id));
 			} else {
@@ -68,6 +75,7 @@ class CformsController extends CformsAppController {
 
 	function admin_list_cforms(){
 		//$this->layout = 'tinymce';
+		
 		$this->set('cforms', $this->Cform->find('list'));
 	}
 

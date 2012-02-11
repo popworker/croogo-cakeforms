@@ -1,11 +1,15 @@
 <?php
 
 class CformsAppController extends AppController {
-    public $components = array('RequestHandler', 'Cforms.Cforms');
+    public $components = array('RequestHandler'/*, 'Cforms.Cforms'*/);
 
 
 
     function beforeFilter(){
+    
+    
+    
+    
         parent::beforeFilter();
         if($this->RequestHandler->isAjax()){
             Configure::write('debug', 0);
@@ -16,7 +20,10 @@ class CformsAppController extends AppController {
                 $this->Auth->loginAction['plugin'] = null;
             }
         }
-        $this->Security->enabled = false;
+//        $this->Security->enabled = false;
+        
+        $this->Components->disable('Security');
+        
     }
 }
 

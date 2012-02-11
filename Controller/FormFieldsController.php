@@ -7,21 +7,21 @@ class FormFieldsController extends CformsAppController {
 	function admin_add($formId = null) {
 		$response = false;
 
-		if(!empty($this->data)){
-			if(empty($this->data['FormField']['name'])){
+		if(!empty($this->request->data)){
+			if(empty($this->request->data['FormField']['name'])){
 				$original_name = 'New Field question';
-				$this->data['FormField']['name'] = 'new_field';
+				$this->request->data['FormField']['name'] = 'new_field';
 			} else {
-				$original_name = $this->data['FormField']['name'];
-				$this->data['FormField']['name'] = Inflector::slug(strtolower($original_name));
+				$original_name = $this->request->data['FormField']['name'];
+				$this->request->data['FormField']['name'] = Inflector::slug(strtolower($original_name));
 			}
 
-			if(empty($this->data['FormField']['label'])){
-				$this->data['FormField']['label'] = $original_name;
+			if(empty($this->request->data['FormField']['label'])){
+				$this->request->data['FormField']['label'] = $original_name;
 			}
 
 			$this->FormField->create();
-			if ($this->FormField->save($this->data)) {
+			if ($this->FormField->save($this->request->data)) {
 				$response = $this->FormField->id;
 			}
 
@@ -29,7 +29,7 @@ class FormFieldsController extends CformsAppController {
 			$this->render('../elements/ajax_reponse');
 
 		} elseif($formId) {
-			$this->data['FormField']['cform_id'] = $formId;
+			$this->request->data['FormField']['cform_id'] = $formId;
 			$types = $this->FormField->types;
 			$this->set('types', $types);
 			$this->render('admin_add');
@@ -49,12 +49,12 @@ class FormFieldsController extends CformsAppController {
 	function admin_edit($id = null) {
 		if($this->RequestHandler->isAjax()){
 
-			if (!$id && empty($this->data)) {
+			if (!$id && empty($this->request->data)) {
 				$this->set('response', null);
 				$this->render('../elements/ajax_reponse');
 
-			} elseif(!empty($this->data)) {
-				if ($this->FormField->save($this->data)) {
+			} elseif(!empty($this->request->data)) {
+				if ($this->FormField->save($this->request->data)) {
 					$this->set('response', 'success');
 
 				} else {
@@ -62,7 +62,7 @@ class FormFieldsController extends CformsAppController {
 				}
 					$this->render('../elements/ajax_reponse');
 			} else {
-				$this->data = $this->FormField->read(null, $id);
+				$this->request->data = $this->FormField->read(null, $id);
 				$validationRules = $this->FormField->ValidationRule->find('list');
 				$this->set(compact('validationRules'));
 			}
@@ -103,7 +103,7 @@ class FormFieldsController extends CformsAppController {
         function admin_sort(){
             if($this->RequestHandler->isAjax()){
 		$order = 0;
-                foreach($this->data['FormField'] as $field){
+                foreach($this->request->data['FormField'] as $field){
                     $this->FormField->create();
                     $this->FormField->id = $field['id'];
                     $this->FormField->saveField('order', $order);

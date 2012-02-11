@@ -8,6 +8,8 @@ class Form extends CformsAppModel {
 	var $dependsOn = array();
 	
 	function beforeValidate(){
+	
+	
 		foreach($this->dependsOn as $field => $dependsOn){
 			$this->dependsOn($field, $dependsOn['field'], $dependsOn['value']);
 		}
