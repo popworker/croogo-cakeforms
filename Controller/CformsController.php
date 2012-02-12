@@ -48,7 +48,6 @@ class CformsController extends CformsAppController {
 
 	function admin_add() {
 	
-			echo 'admin add';
 		if (!empty($this->request->data)) {
 			$this->Cform->create();
 			if ($this->Cform->save($this->request->data)) {

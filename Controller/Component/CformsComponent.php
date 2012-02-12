@@ -371,7 +371,6 @@ class CformsComponent extends Component {
 
                 $plugin = $this->Controller->plugin;
                 
-                echo debug($plugin);
                 $this->Controller->plugin = 'Cforms';
 		$this->Email->template = 'Cforms.submission';
 
